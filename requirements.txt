@@ -29,4 +29,4 @@ sqlparse==0.4.2
 threadpoolctl==3.1.0
 urllib3==1.26.9
 whitenoise==6.0.0
-xgboost==1.6.0
+xgboost==1.5.0
