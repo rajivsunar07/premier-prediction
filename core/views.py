@@ -55,12 +55,15 @@ def home(request):
                 f.save()
         
 
-    unfinished_fixtures = Fixtures.objects.filter(finished = False)
-    event = unfinished_fixtures[0].event
+    # unfinished_fixtures = Fixtures.objects.filter(finished = False)
+    # event = unfinished_fixtures[0].event
 
-    upcoming_fixtures = Fixtures.objects.filter(finished = False, event = event)
+    # upcoming_fixtures = Fixtures.objects.filter(finished = False, event = event)
+
 
     ''' Get the upcoming fixtures list '''
+
+    upcoming_fixtures = Fixtures.objects.filter(finished = False).order_by('kickoff_time')[:10]
     # teams_list = []
     # upcoming_fixtures = []
 
