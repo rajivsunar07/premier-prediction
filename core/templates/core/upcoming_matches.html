@@ -1,0 +1,36 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="row mb-3 mt-4 justify-content-md-center">
+        <h1 class="text-center">Premier League</h1>
+    </div>
+
+    <div class="row mb-3 mt-4 justify-content-md-center">
+        <h1 class="text-center">Upcoming matches</h1>
+    </div>
+
+    <div>
+        {% for fixture in fixtures %}
+            <div class="row border-top p-4">
+                <div class="col-8">
+                    <div class="row">
+                        <div class="col-4">
+                            <h5 class="display-6">{{fixture.team_h}} </h5>
+                        </div>
+                        <div class="col-2">
+                            <h5 class="display-6">vs  </h5>
+                        </div>
+                        <div class="col-4">
+                            <h5 class="display-6">{{ fixture.team_a }} </h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <a href="{% url 'core:detail' fixture.id %}">View predictions</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

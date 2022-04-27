@@ -1,0 +1,249 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block jquery %}
+    <script>
+        $(document).ready(function(){
+            var get_probability_chart = function(labels, data, name, chart, color)  {
+                const config_data = {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Probability of goals for: ' + name,
+                        backgroundColor: color,
+                        borderColor: color,
+                        data: data
+                    }]
+                };
+
+                const config = {
+                    type: 'bar',
+                    data: config_data,
+                    options: {
+                        scales: {
+                            y: {
+                                min: 0,
+                                max: 1,
+                                title: {
+                                    display: true,
+                                    text: 'Probability (0-1)',
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Goals'
+                                }
+                            }
+                            
+                        },
+
+                    }
+                };
+
+                const myChart = new Chart(
+                    chart,
+                    config
+                );
+            }
+       
+            const labels_prob_h = [
+                parseInt("{{fixture.highest_goal_h}}"),
+                parseInt("{{fixture.second_goal_h}}"),
+                parseInt("{{fixture.third_goal_h}}"),
+            ];
+
+            data_prob_h = [
+                "{{fixture.highest_h|floatformat:3}}",
+                "{{fixture.second_h|floatformat:3}}",
+                "{{fixture.third_h|floatformat:3}}",
+            ]
+
+            const labels_prob_a = [
+                parseInt("{{fixture.highest_goal_a}}"),
+                parseInt("{{fixture.second_goal_a}}"),
+                parseInt("{{fixture.third_goal_a}}"),
+            ];
+
+            data_prob_a = [
+                "{{fixture.highest_a|floatformat:3}}",
+                "{{fixture.second_a|floatformat:3}}",
+                "{{fixture.third_a|floatformat:3}}",
+            ]
+
+    
+           
+
+            get_probability_chart(labels_prob_h, data_prob_h, '{{team_h.name}}',document.getElementById('probChart1'), 'rgb(17, 69, 240)')
+            get_probability_chart(labels_prob_a, data_prob_a, '{{team_a.name}}',document.getElementById('probChart2'), 'rgb(255, 99, 132)')
+
+        
+
+            
+
+        })
+    </script>
+
+{% endblock jquery %}
+
+{% block content %}
+    <div class="row justify-content-md-center border-bottom p-4">
+        <h1>{{team_h.name}} vs {{team_a.name}}</h1>
+    </div>
+
+    <div class="row pt-2 justify-content-md-center border-top">
+        Predicted result
+    </div>
+    <div class="row justify-content-md-center p-3">
+        {% if draw %}
+        {% else %}
+           <h4 class="text-success pt-3">Winner: {{result}}</h4> 
+        {% endif %}
+    </div>
+
+    <div class="row  justify-content-md-center border-top pt-3">
+        <h2>Goals Probability</h2>
+    </div>
+    <div class="row justify-content-md-center">
+        <canvas id="probChart1" class="col-5"></canvas>
+        <canvas id="probChart2" class="col-5"></canvas>
+    </div>
+
+    <div class="row justify-content-md-center border-top p-4">
+        <h2>Past Fixtures against each other in this season: </h2>
+    </div>
+    <div class="row justify-content-md-center">
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Team</th>
+                <th scope="col">Wins</th>
+                <th scope="col">Loss</th>
+                <th scope="col">Draw</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">{{team_h.name}}</th>
+                <td>{{ fixture.past_h_wins }}</td>
+                <td>{{ fixture.past_h_loss }}</td>
+                <td>{{ fixture.past_h_draw }}</td>
+              </tr>
+              <tr>
+                <th scope="row">{{team_a.name}}</th>
+                <td>{{ fixture.past_a_wins }}</td>
+                <td>{{ fixture.past_a_loss }}</td>
+                <td>{{ fixture.past_a_draw }}</td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+
+    <div class="row justify-content-md-center border-top p-4">
+        <h2>Results in this season: </h2>
+    </div>
+    <div class="row justify-content-md-center">
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Team</th>
+                <th scope="col">Wins</th>
+                <th scope="col">Loss</th>
+                <th scope="col">Draw</th>
+                <th scope="col">Played</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">{{team_h.name}}</th>
+                <td>{{ fixture.team_h_wins }}</td>
+                <td>{{ fixture.team_h_loss }}</td>
+                <td>{{ fixture.team_h_draw }}</td>
+                <td>{{ fixture.team_h_wins|add:fixture.team_h_loss|add:fixture.team_h_draw }}</td>
+              </tr>
+              <tr>
+                <th scope="row">{{team_a.name}}</th>
+                <td>{{ fixture.team_a_wins }}</td>
+                <td>{{ fixture.team_a_loss }}</td>
+                <td>{{ fixture.team_a_draw }}</td>
+                <td>{{ fixture.team_a_wins|add:fixture.team_a_loss|add:fixture.team_a_draw }}</td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+       
+    <div class="row justify-content-md-center border-top p-4">
+        <h2>Form: </h2>
+    </div>
+    <div class="row justify-content-md-center">
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Team</th>
+                <th scope="col">Form</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">{{team_h.name}}</th>
+                <td>
+                    <div class="row">
+                        {% for form in form_h %}
+                            {{form}}
+                        {% endfor %}
+                    </div>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">{{team_a.name}}</th>
+                <td>
+                    <div class="row">
+                        {% for form in form_a %}
+                            {{form}}
+                        {% endfor %}
+                    </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+
+    <div class="row justify-content-md-center border-top p-4">
+        <h2>Goals: </h2>
+    </div>
+    <div class="row justify-content-md-center">
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Team</th>
+                <th scope="col">Scored</th>
+                <th scope="col">Conceeded</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">{{team_h.name}}</th>
+                <td>
+                    <div class="row">{{goals_h}} </div>
+                   
+
+                </td>
+                <td> <div class="row">{{conceeded_h}} </div></td>
+              </tr>
+              <tr>
+                <th scope="row">{{team_a.name}}</th>
+                <td>
+                    <div class="row">{{goals_a}} </div>
+                   
+                </td>
+                <td>
+                    <div class="row">{{conceeded_a}} </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+
+{% endblock %}
+

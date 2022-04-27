@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% load bootstrap4 %}
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>{% block title %} {% endblock %}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static "core/css/bootstrap.min.css" %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static "core/css/core.css" %}" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="/">Sports Analysis and Prediction</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link text-light" href="{% url "core:home" %}">Upcoming Matches
+                <span class="sr-only">(current)</span>
+              </a>
+             
+            </li>
+          
+              
+          </ul>
+
+      </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+      <div class="row justify-content-md-center">
+      
+        <!-- /.col-lg-3 -->
+
+        <div class="col-lg-9 mt-3">
+        {% bootstrap_messages %}
+        {% block header %}{% endblock %}
+
+
+        {% block content %}
+
+        {% endblock %}
+
+        </div>
+      </div>
+
+    </div>
+    <!-- Bootstrap core JavaScript -->
+    <script src="{% static "core/js/jquery.min.js" %}" type="text/javascript"></script>
+    <script src="{% static "core/js/bootstrap.min.js" %}" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js" integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    
+    {% block jquery %} 
+    {% endblock %} 
+
+
+  </body>
+
+</html>
